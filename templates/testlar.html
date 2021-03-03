@@ -1,0 +1,295 @@
+{% if not active_test %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>testlar</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<style>
+body {
+	background: #eeeeee;
+	font-family: 'Varela Round', sans-serif;
+}
+.navbar {
+	color: #fff;
+	background: #926dde !important;
+	padding: 5px 16px;
+	border-radius: 0;
+	border: none;
+	box-shadow: 0 0 4px rgba(0,0,0,.1);
+}
+.navbar img {
+	border-radius: 50%;
+	width: 36px;
+	height: 36px;
+	margin-right: 10px;
+}
+.navbar .navbar-brand {
+	color: #efe5ff;
+	padding-left: 0;
+	padding-right: 50px;
+	font-size: 24px;
+}
+.navbar .navbar-brand:hover, .navbar .navbar-brand:focus {
+	color: #fff;
+}
+.navbar .navbar-brand i {
+	font-size: 25px;
+	margin-right: 5px;
+}
+.search-box {
+	position: relative;
+}
+.search-box input {
+	padding-right: 35px;
+	min-height: 38px;
+	border: none;
+	background: #faf7fd;
+	border-radius: 3px !important;
+}
+.search-box input:focus {
+	background: #fff;
+	box-shadow: none;
+}
+.search-box .input-group-addon {
+	min-width: 35px;
+	border: none;
+	background: transparent;
+	position: absolute;
+	right: 0;
+	z-index: 9;
+	padding: 10px 7px;
+	height: 100%;
+}
+.search-box i {
+	color: #a0a5b1;
+	font-size: 19px;
+}
+.navbar .nav-item i {
+	font-size: 18px;
+}
+.navbar .nav-item span {
+	position: relative;
+	top: 3px;
+}
+.navbar .navbar-nav > a {
+	color: #efe5ff;
+	padding: 8px 15px;
+	font-size: 14px;
+}
+.navbar .navbar-nav > a:hover, .navbar .navbar-nav > a:focus {
+	color: #fff;
+	text-shadow: 0 0 4px rgba(255,255,255,0.3);
+}
+.navbar .navbar-nav > a > i {
+	display: block;
+	text-align: center;
+}
+.navbar .dropdown-item i {
+	font-size: 16px;
+	min-width: 22px;
+}
+.navbar .dropdown-item .material-icons {
+	font-size: 21px;
+	line-height: 16px;
+	vertical-align: middle;
+	margin-top: -2px;
+}
+.navbar .nav-item.open > a, .navbar .nav-item.open > a:hover, .navbar .nav-item.open > a:focus {
+	color: #fff;
+	background: none !important;
+}
+.navbar .dropdown-menu {
+	border-radius: 1px;
+	border-color: #e5e5e5;
+	box-shadow: 0 2px 8px rgba(0,0,0,.05);
+}
+.navbar .dropdown-menu a {
+	color: #777 !important;
+	padding: 8px 20px;
+	line-height: normal;
+	font-size: 15px;
+}
+.navbar .dropdown-menu a:hover, .navbar .dropdown-menu a:focus {
+	color: #333 !important;
+	background: transparent !important;
+}
+.navbar .navbar-nav .active a, .navbar .navbar-nav .active a:hover, .navbar .navbar-nav .active a:focus {
+	color: #fff;
+	text-shadow: 0 0 4px rgba(255,255,255,0.2);
+	background: transparent !important;
+}
+.navbar .navbar-nav .user-action {
+	padding: 9px 15px;
+	font-size: 15px;
+}
+.navbar .navbar-toggle {
+	border-color: #fff;
+}
+.navbar .navbar-toggle .icon-bar {
+	background: #fff;
+}
+.navbar .navbar-toggle:focus, .navbar .navbar-toggle:hover {
+	background: transparent;
+}
+.navbar .navbar-nav .open .dropdown-menu {
+	background: #faf7fd;
+	border-radius: 1px;
+	border-color: #faf7fd;
+	box-shadow: 0 2px 8px rgba(0,0,0,.05);
+}
+.navbar .divider {
+	background-color: #e9ecef !important;
+}
+@media (min-width: 1200px){
+	.form-inline .input-group {
+		width: 350px;
+		margin-left: 30px;
+	}
+}
+@media (max-width: 1199px){
+	.navbar .navbar-nav > a > i {
+		display: inline-block;
+		text-align: left;
+		min-width: 30px;
+		position: relative;
+		top: 4px;
+	}
+	.navbar .navbar-collapse {
+		border: none;
+		box-shadow: none;
+		padding: 0;
+	}
+	.navbar .navbar-form {
+		border: none;
+		display: block;
+		margin: 10px 0;
+		padding: 0;
+	}
+	.navbar .navbar-nav {
+		margin: 8px 0;
+	}
+	.navbar .navbar-toggle {
+		margin-right: 0;
+	}
+	.input-group {
+		width: 100%;
+	}
+}
+</style>
+</head>
+<body>
+{% csrf_token %}
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark">
+	<div class="container">
+		<a href="#" class="navbar-brand"><i class="fa fa-book" ></i>Online<b>Test</b></a>
+		<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<!-- Collection of nav links, forms, and other content for toggling -->
+		<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">
+
+			<div class="navbar-nav ml-auto ">
+				<a href="/" class="nav-item nav-link active"><i class="fa fa-home"></i><span>Главная</span></a>
+				<a href="/results" class="nav-item nav-link"><i class="fa fa-database"></i><span>Результаты</span></a>
+				<a href="/davay" class="nav-item nav-link"><i class="fa fa-sign-out"></i><span>Выход</span></a>
+			</div>
+		</div>
+	</div>
+</nav>
+
+<div class="container rounded mt-3 " style="padding-bottom:200px;">
+	<div class="container rounded mt-3 mb-3 bg-white">
+	  <div class="row justify-content-center">
+	    <h2 class="text-italic pt-2 pb-1">{{ current_user.last_name }} {{ current_user.first_name }} {{ current_user.clas.title }}</h2>
+	  </div>
+	</div>
+<div class="list-group">
+	<div class="form-group">
+    <label for="subjects" style="padding-top:10px;">Предмет</label>
+        <select class="form-control js-filter" name="subject_id" id="subjects">
+            <option value="0"> Все </option>
+            {% for cl in subjects %}
+            <option value="{{ cl.id }}"  {% if cl.id == subject_id %} selected="selected" {% endif %}> {{ cl.title }} </option>
+            {% endfor %}
+        </select>
+  </div>
+	{% for test in tests %}
+  	<button type="button" class="list-group-item list-group-item-action js-subject" data-id="{{ test.id }}" ><i class="fa fa-book mx-3" style="color: #926dde;"></i>{{ test.title }} &nbsp;&nbsp;&nbsp;&nbsp;   {{ test.subject.title }}</button>
+	{% endfor %}
+</div>
+
+</div>
+<footer class="page-footer font-small w-100" style="position:fixed; bottom:0;background:#926dde;">
+	  <div class="container" >
+		  <div class="col-md-12 ">
+			<div class=" text-center py-3 text-white">
+			  <a ><i class="fa fa-facebook-f fa-lg mr-md-5 mr-3"> </i></a>
+			  <a ><i class="fa fa-twitter fa-lg mr-md-5 mr-3"> </i></a>
+			  <a ><i class="fa fa-google-plus fa-lg mr-md-5 mr-3"> </i></a>
+			  <a><i class="fa fa-at fa-lg"> </i></a>
+			</div>
+		  </div>
+	  </div>
+	<div class="footer-copyright text-center py-2 text-white">
+    <a><i class="fa fa-instagram fa-lg mr-md-2 sm-6"></i></a> <a target="_blank" class="text-white" href="https://www.instagram.com/bahtiyor_holmetov/"> Халметов Бахтиёр </a> &nbsp;|&nbsp;<a target="_blank" class="text-white" href="https://www.instagram.com/al1khon_/"> Эшматов Алихан </a>  &nbsp;|&nbsp; <a target="_blank" class="text-white" href="https://www.instagram.com/assilbek__/"> Корганбаев Асилбек </a>  | <a><i class="fa fa-instagram fa-lg ml-md-2 "> </i></a>
+	</div>
+</footer>
+
+
+
+<script>
+	$('.js-subject').click(function(){
+		var csrfmiddlewaretoken = $('[name="csrfmiddlewaretoken"]').val();
+        var test_id = $(this).data('id');
+        var oData = {
+          'test_id': test_id,
+          'action': 'start_test',
+          'csrfmiddlewaretoken': csrfmiddlewaretoken
+        }
+
+		if(confirm("Вы действительно хотите начать тест?")){
+			$.ajax({
+			  type: 'POST',
+			  url: '/',
+			  dataType: 'json',
+			  data: oData,
+			  success: function(){
+				location.reload();
+			  }
+			})
+		}
+
+
+        return false;
+	})
+</script>
+<script>
+
+    $('.js-filter').change(function(){
+        var path = '';
+
+        $('.js-filter').each(function(a,b){
+            path += '&' + $(b).attr('name') +'=' + $(b).val();
+        })
+
+        location.search = '?qweqwe=qweqwe' + path;
+
+        return false;
+    })
+
+</script>
+</body>
+</html>
+{% else %}
+
+{% include 'active-test.html' %}
+
+{% endif %}

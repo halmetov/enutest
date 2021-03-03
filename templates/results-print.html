@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<table border="1" style="width:100%;">
+    <thead>
+        <tr>
+            <th>ФИО</th>
+            <th>Предмет</th>
+            <th>Бал</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for tt in tests %}
+        <tr>
+            <td>{{ tt.user }}</td>
+            <td>{{ tt.test.subject.title }}&nbsp;&nbsp; {{ tt.test.title }}</td>
+            <td>{{ tt.ball }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<script>
+window.print();
+</script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="/static/style2.css">
+	<title>Test</title>
+	<script src="/static/js/jquery.js"></script>
+	<script>
+		const startingMinutes = {{ left_time }};
+		let time = startingMinutes;
+
+		const countDownEl = document.getElementById("countdown");
+		var interval = setInterval(updateCountdown, 1000);
+		function updateCountdown() {
+		console.log(time);
+		  const minutes = Math.floor(time / 60 );
+		  let seconds = time  % 60;
+		  seconds = seconds < 10 ? "0" + seconds:
+		  seconds;
+		  document.getElementById("countdown").innerHTML = "Оставшееся время: " + minutes + ":" + seconds;
+		  time--;
+		  console.log(time);
+		  if(time<=0){
+			$('.js-end-test').click();
+			clearInterval(interval);
+		  }
+		}
+	</script>
+
+</head>
+<body>
+{% csrf_token %}
+	<div class="nav"style="text-align:center; font-family:forte; font-size:30px;" >
+		Online Test
+	</div>
+
+<div class="container">
+	<div class="left-container"><br>
+		<div class="time">
+			<h1>{{ current_user.last_name }} {{ current_user.first_name }} {{ current_user.clas.title }}</h1>
+			<h1>Тесты для {{ current_user.clas.title }}a</h1>
+
+			<div class="js-time" id="countdown" data-id="{{ left_time }}">
+				Оставшееся время: {{ left_time_min }}:{% if left_time_sec < 10  %}0{% endif %}{{ left_time_sec }}
+			</div>
+			<div class="nav-button">
+				<input type="button" id="endbtn" class="js-end-test input-button " value="Завершить тест">
+			</div>
+			<hr class="hr-2">
+		</div>
+		<div class="subject-title">
+			{{ active_test.test.subject.title }}
+		</div>
+		<hr class="hr-2">
+		<div class="nav-numbers">
+			{% for atq in active_test_questions %}
+			<div class=" nav-number js-question-item {% if atq.id == test_question.id %} active {% endif %} {% if atq.id in all_user_choosen_variants %} js-choosed {% endif %}" data-loop="{{ forloop.counter }}" data-id="{{ atq.id }}"> {{ atq.user_variant }} {{ forloop.counter }} </div>
+			{% endfor %}
+
+		</div>
+		{% if test_question %}
+		<hr class="hr-2"><br>
+		<p class="question">{{ test_question.question }}</p>
+		<p class="answers">
+			<input {% if choosen_variant_info and choosen_variant_info.user_variant == 1 %} checked="checked" {% endif %} type="radio" id="answer1" value="1" name="answer" class="answer">
+			<label class="label-answer" for="answer1">{{ test_question.answer_1 }}</label>
+			<br>
+			<input {% if choosen_variant_info and choosen_variant_info.user_variant == 2 %} checked="checked" {% endif %} type="radio" id="answer2" value="2" name="answer" class="answer">
+			<label class="label-answer" for="answer2">{{ test_question.answer_2 }} </label>
+			<br>
+			<input {% if choosen_variant_info and choosen_variant_info.user_variant == 3 %} checked="checked" {% endif %} type="radio" value="3" id="answer3" name="answer" class="answer">
+			<label class="label-answer" for="answer3">{{ test_question.answer_3 }} </label>
+			<br>
+			<input {% if choosen_variant_info and choosen_variant_info.user_variant == 4 %} checked="checked" {% endif %} type="radio" value="4"id="answer4" name="answer" class="answer">
+			<label class="label-answer"for="answer4">{{ test_question.answer_4 }} </label>
+			<br>
+			<input {% if choosen_variant_info and choosen_variant_info.user_variant == 5 %} checked="checked" {% endif %} type="radio"value="5"id="answer5" name="answer" class="answer">
+			<label class="label-answer"for="answer5">{{ test_question.answer_5 }}</label>
+			<br>
+		</p>
+		{% endif %}
+		<div class="nav-button">
+			<input type="button" id="prev" class="input-button" name="prev-button" value="< Назад">
+			<input type="button" id="next" class="input-button" name="next-button" value="Вперед >">
+			 <!--style="visibility:hidden;"-->
+		</div>
+
+		<hr class="hr-2">
+			<div class="count">Вопрос №
+				{% for atq in active_test_questions %}{% if atq.id == test_question.id %}{{ forloop.counter }}{% endif %}{% endfor %} / {{ active_test_questions|length }}
+			</div>
+		<hr class="hr-2"><br>
+	</div>
+
+
+
+
+
+<script>
+	$('.js-question-item').click(function(){
+		var csrfmiddlewaretoken = $('[name="csrfmiddlewaretoken"]').val();
+        var test_question_id = $(this).data('id');
+        var oData = {
+          'test_question_id': test_question_id,
+          'action': 'choose_question',
+          'csrfmiddlewaretoken': csrfmiddlewaretoken
+        }
+
+		$.ajax({
+		  type: 'POST',
+		  url: '/',
+		  dataType: 'json',
+		  data: oData,
+		  success: function(){
+			location.reload();
+		  }
+		})
+
+
+        return false;
+	})
+
+	var tests_count = {{ active_test_questions|length }};
+
+	$('#next').click(function(){
+		var active_quest = $('.js-question-item.active').data('loop');
+		var nnnext = parseInt(active_quest,10)+1;
+		if (nnnext > tests_count){nnnext = 1;};
+		$('.js-question-item[data-loop="' + nnnext + '"]').click();
+		return false;
+	})
+
+	$('#prev').click(function(){
+		var active_quest = $('.js-question-item.active').data('loop');
+		var prevvv = parseInt(active_quest,10)-1;
+		if (prevvv ==0){prevvv = tests_count;}
+		$('.js-question-item[data-loop="' + prevvv + '"]').click();
+		return false;
+	})
+
+	var radios = document.querySelectorAll('input[type=radio][name="answer"]');
+
+	function changeHandler(event) {
+	   var csrfmiddlewaretoken = $('[name="csrfmiddlewaretoken"]').val();
+        var test_question_id = {% if test_question %}{{ test_question.id }}{%else%}0{% endif %};
+        var oData = {
+          'test_question_id': test_question_id,
+          'action': 'choose_variant',
+          'variant': this.value,
+          'csrfmiddlewaretoken': csrfmiddlewaretoken
+        }
+
+		$.ajax({
+		  type: 'POST',
+		  url: '/',
+		  dataType: 'json',
+		  data: oData,
+		  success: function(){
+			location.reload();
+		  }
+		})
+
+	}
+
+	Array.prototype.forEach.call(radios, function(radio) {
+	   radio.addEventListener('change', changeHandler);
+	});
+
+	$('.js-end-test').click(function(){
+		var csrfmiddlewaretoken = $('[name="csrfmiddlewaretoken"]').val();
+        var oData = {
+          'action': 'endtest',
+          'csrfmiddlewaretoken': csrfmiddlewaretoken
+        }
+
+		$.ajax({
+		  type: 'POST',
+		  url: '/',
+		  dataType: 'json',
+		  data: oData,
+		  success: function(){
+			location.pathname = '/results';
+		  }
+		})
+	})
+
+</script>
+<style>
+	.js-question-item.active{
+		background-color:#75e96f;;
+		border: 1px solid #a88dd3;
+	}
+	.js-choosed{
+		    background-color: #d2c7f3;
+    border: 1px solid #a88dd3;
+	}
+
+</style>
+</body>
+</html>

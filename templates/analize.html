@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="/static/style2.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+	integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+	<title>Анализ</title>
+</head>
+
+<body>
+<div class="body">
+<div class="nav">
+	<div class="nav-bar">
+	<div class="head-left" style="font-style:italic;">
+		<i class="fa fa-book" style="font-style:italic; font-size:20px;"></i>	Online<b>Test</b>
+	</div>
+	<div class="head-right">
+		<div class="alla">
+			<a href="/" class="nav-link">
+				<i class="fas fa-home"></i>
+				<span>Главная</span>
+			</a>
+		</div>
+		<div class="alla">
+			<a href="/results" class="nav-link">
+				<i class="fas fa-database"></i>
+				<span>Результаты</span>
+			</a>
+		</div>
+		<div class="alla">
+			<a href="/davay" class="nav-link">
+				<i class="fas fa-sign-out-alt"></i>
+				<span>Выход</span>
+			</a>
+		</div>
+	</div>
+	</div>
+</div>
+
+<div class="container">
+	<div class="left-container"><br>
+		{% if test_info %}
+		<h1>{{ test_info.user.last_name }} {{ test_info.user.first_name }} {{ test_info.user.clas.title }}</h1>
+		<hr class="hr-2">
+		<center class="subject-1">
+			{{ test_info.test.title }}
+		</center>
+		<div class="ball">
+			{{ test_info.ball }}<br>
+			<h1>бал</h1>
+		</div>
+		<br>
+		<div class="count" style="text-align: center;margin: 0">Набрано : {{ test_info.ball }} из {{ test_info.count_question }}</div>
+		<br>
+
+
+		<hr class="hr-2">
+
+
+		{% for ti in test_user_item_variants %}
+		<div class="answer-list {% if ti.user_variant == ti.correct_variant %} bg-gren {% else %} bg-red {% endif %} ">
+			<span class="question-1">Вопрос № {{ forloop.counter }} :</span><span class="question-2">{{ ti.test_item.question }}</span><br>
+			{% if ti.user_variant != ti.correct_variant %}
+			<span class="question-2">Ваш ответ: </span>
+			{% if ti.user_variant == 1 %} {{ ti.test_item.answer_1 }} {% endif %}
+			{% if ti.user_variant == 2 %} {{ ti.test_item.answer_2 }} {% endif %}
+			{% if ti.user_variant == 3 %} {{ ti.test_item.answer_3 }} {% endif %}
+			{% if ti.user_variant == 4 %} {{ ti.test_item.answer_4 }} {% endif %}
+			{% if ti.user_variant == 5 %} {{ ti.test_item.answer_5 }} {% endif %}
+			<br>
+			<span class="question-2">Правильный ответ:</span>
+			{% if ti.correct_variant == 1 %} {{ ti.test_item.answer_1 }} {% endif %}
+			{% if ti.correct_variant == 2 %} {{ ti.test_item.answer_2 }} {% endif %}
+			{% if ti.correct_variant == 3 %} {{ ti.test_item.answer_3 }} {% endif %}
+			{% if ti.correct_variant == 4 %} {{ ti.test_item.answer_4 }} {% endif %}
+			{% if ti.correct_variant == 5 %} {{ ti.test_item.answer_5 }} {% endif %}
+
+			<br>
+			{% else %}
+			<span class="question-2">Ваш ответ:</span>
+			{% if ti.user_variant == 1 %} {{ ti.test_item.answer_1 }} {% endif %}
+			{% if ti.user_variant == 2 %} {{ ti.test_item.answer_2 }} {% endif %}
+			{% if ti.user_variant == 3 %} {{ ti.test_item.answer_3 }} {% endif %}
+			{% if ti.user_variant == 4 %} {{ ti.test_item.answer_4 }} {% endif %}
+			{% if ti.user_variant == 5 %} {{ ti.test_item.answer_5 }} {% endif %}
+
+			<br>
+			{% endif %}
+		</div>
+		{% endfor %}
+
+
+
+
+		<hr class="hr-2">
+		<div class="nav-button">
+			<a style="text-decoration:none;" href="/results"><input type="button" id="prev" class="input-button" name="prev-button" value="Назад"></a>
+		</div><br>
+
+		{% endif %}
+	</div>
+</div>
+
+
+</div>
+</body>
+</html>
